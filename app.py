@@ -10,13 +10,13 @@ from flask_sqlalchemy import SQLAlchemy
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-app = Flask(__name__)
+app = Flask(_name_)
 
-# load files===========================================================================================================
+# load files
 trending_products = pd.read_csv("models/trending_products.csv")
 train_data = pd.read_csv("models/clean_data.csv")
 
-# database configuration---------------------------------------
+# database configuration
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "a_fallback_secret_key_for_development_only")
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -37,7 +37,7 @@ class Signin(db.Model):
     password = db.Column(db.String(100), nullable=False)
 
 
-# Recommendations functions============================================================================================
+# Recommendations functions
 # Function to truncate product name
 def truncate(text, length):
     if len(text) > length:
@@ -134,7 +134,7 @@ def hybrid_recommendations(train_data, target_user_id, item_name, top_n=10):
 
     return hybrid_rec.head(top_n)
 
-# routes===============================================================================
+# routes
 # List of predefined image URLs
 random_image_urls = [
     "static/img_1.png",
@@ -231,7 +231,7 @@ def recommendations():
 
         if hybrid_rec.empty:
             message = f"No recommendations available for '{prod}'."
-            return render_template('main.html', message=message, content_based_rec=pd.DataFrame())
+            return render_template('main.html', message=message, content_based_rec=pd.DataFrame(), truncate=truncate)
         else:
             # Create a list of random image URLs for each recommended product
             random_product_image_urls = [random.choice(random_image_urls) for _ in range(len(hybrid_rec))]
@@ -242,7 +242,7 @@ def recommendations():
                                    search_query=prod)
 
 
-if __name__=='__main__':
+if _name=='main_':
     with app.app_context():
         db.create_all()
     app.run(debug=True)
