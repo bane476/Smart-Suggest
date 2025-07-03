@@ -4,66 +4,170 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ecommerce Recommendation System</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amazon+Ember:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <style>
-     body {
-            background-color: #f8f9fa;
-        }
-        .navbar {
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .container {
-            margin-top: 50px;
-        }
-        .video-background {
-            width: 100%;
-            height: 400px; /* Set the height of the video here */
-            object-fit: cover; /* Ensure the video covers the entire container */
-        }
-        .nav-link:hover {
-            color: orange !important; /* Change text color on hover */
-        }
-        .nav-link.btn {
-            border-radius: 5px; /* Add rounded corners to buttons */
-        }
-
-        .modal-content {
-            background-color: #fff; /* Set modal content background color */
-            color: #000; /* Set modal content text color */
-        }
-        .modal-content.dark {
-            background-color: #000; /* Set modal content background color for dark theme */
-            color: #fff; /* Set modal content text color for dark theme */
-        }
+    body {
+        font-family: 'Amazon Ember', sans-serif;
+        background-color: #eaeded; /* Amazon's light background */
+        color: #111;
+    }
+    .navbar {
+        background-color: #232f3e !important; /* Amazon's dark blue */
+        box-shadow: 0 2px 4px rgba(0,0,0,.15);
+        padding: 0.5rem 1rem;
+    }
+    .navbar-brand img {
+        height: 25px; /* Adjust logo size */
+    }
+    .form-control {
+        border-radius: 4px 0 0 4px;
+        border: 1px solid #ccc;
+    }
+    .btn-warning {
+        background-color: #febd69; /* Amazon's orange */
+        border-color: #febd69;
+        color: #111;
+        border-radius: 0 4px 4px 0;
+    }
+    .btn-warning:hover {
+        background-color: #f3a847;
+        border-color: #f3a847;
+    }
+    .nav-link {
+        color: #fff !important;
+        font-weight: 400;
+        margin: 0 0.5rem;
+        transition: color 0.3s ease;
+    }
+    .nav-link:hover {
+        color: #febd69 !important; /* Amazon orange on hover */
+    }
+    .video-background {
+        width: 100%;
+        height: 450px; /* Adjusted height */
+        object-fit: cover;
+        filter: brightness(0.7); /* Slightly more dim */
+        margin-top: 56px; /* Space for fixed navbar */
+    }
+    .container {
+        margin-top: 30px;
+    }
+    .card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0,0,0,.1);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        overflow: hidden;
+    }
+    .card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 8px rgba(0,0,0,.15);
+    }
+    .card-img-top {
+        height: 180px; /* Slightly smaller image */
+        object-fit: contain; /* Keep aspect ratio */
+        padding: 10px;
+        background-color: #fff;
+    }
+    .card-body {
+        padding: 1rem;
+    }
+    .card-title {
+        font-weight: 700;
+        color: #0f1111;
+        font-size: 1rem;
+        margin-bottom: 0.25rem;
+    }
+    .card-text {
+        color: #565959;
+        font-size: 0.85rem;
+        margin-bottom: 0.5rem;
+    }
+    .btn-primary {
+        background-color: #ffa41c; /* Amazon's primary button orange */
+        border-color: #ffa41c;
+        color: #111;
+        font-weight: 700;
+        border-radius: 8px;
+        padding: 0.5rem 1rem;
+    }
+    .btn-primary:hover {
+        background-color: #ff8f00;
+        border-color: #ff8f00;
+    }
+    .modal-content {
+        border-radius: 8px;
+    }
+    .modal-header {
+        background-color: #f0f2f2;
+        border-bottom: 1px solid #ddd;
+    }
+    .modal-title {
+        color: #0f1111;
+    }
+    .modal-body {
+        color: #111;
+    }
+    .footer {
+        background-color: #232f3e; /* Amazon's dark blue */
+        color: #fff;
+        padding: 2rem 0;
+        margin-top: 50px;
+    }
+    .footer h5 {
+        color: #fff;
+        font-weight: 700;
+    }
+    .footer p, .footer li, .footer a {
+        color: #ccc;
+        font-size: 0.85rem;
+    }
+    .footer a:hover {
+        color: #febd69;
+    }
 </style>
 <body>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand mx-auto" href="#">Ecommerce Recommendation System</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" href="#"><i class="fas fa-home"></i> Home</a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" href="#" id="settingsLink"><i class="fas fa-cog"></i> Settings</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link btn btn-outline-primary mr-2" href="#" data-toggle="modal" data-target="#signupModal">Sign Up</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link btn btn-primary" href="#" data-toggle="modal" data-target="#signinModal">Sign In</a>
-      </li>
-    </ul>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      Smart Suggest
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <form class="d-flex mx-auto my-2 my-lg-0" style="width: 60%;">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-warning" type="submit"><i class="fas fa-search"></i></button>
+      </form>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="fas fa-home"></i> Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" id="settingsLink"><i class="fas fa-cog"></i> Settings</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#signupModal">Sign Up</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#signinModal">Sign In</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="fas fa-shopping-cart"></i> Cart</a>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>
+
+<div style="padding-top: 70px;"></div> <!-- Spacer for fixed navbar -->
+
 
 
 <!-- Video -->
@@ -80,7 +184,7 @@
 
 <!-- Go To Main Page Button -->
 <div class="text-center mt-5">
-  <a  href="/main" class="btn btn-primary btn-lg">Go To Main Page</a>
+  <a  href="/main" class="btn btn-warning btn-lg">Go To Main Page</a>
 </div>
 
 {% if signup_message %}
@@ -104,19 +208,17 @@
       </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="productModal{{ index }}" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
+    <div class="modal fade" id="productModal{{ index }}" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="productModalLabel">{{ product['Name'] }}</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <div class="row">
               <div class="col-md-4">
-                  <img src="{{ random_product_image_urls[index] }}" class="img-fluid" alt="{{ product['Name'] }}" style="height: 200px;">
+                  <img src="{{ random_product_image_urls[index] }}" class="img-fluid" alt="{{ product['Name'] }}">
               </div>
               <div class="col-md-8">
                 <p><strong>Brand:</strong> {{ product['Brand'] }}</p>
@@ -130,7 +232,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary">Add to Cart</button>
           </div>
         </div>
@@ -241,14 +343,17 @@
   </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 <script>
+  // Initialize Bootstrap modals
+  var settingsModal = new bootstrap.Modal(document.getElementById('settingsModal'));
+  var signupModal = new bootstrap.Modal(document.getElementById('signupModal'));
+  var signinModal = new bootstrap.Modal(document.getElementById('signinModal'));
+
   // Handle click on Settings link to open the modal
   document.getElementById('settingsLink').addEventListener('click', function() {
-    $('#settingsModal').modal('show');
+    settingsModal.show();
   });
 
   // Handle theme apply button click
@@ -258,19 +363,31 @@
 
     // Apply the selected theme
     if (selectedTheme === 'black') {
-      document.body.style.backgroundColor = 'black';
-      document.body.style.color = 'white';
+      document.body.style.backgroundColor = '#212529'; // Dark background
+      document.body.style.color = '#f8f9fa'; // Light text
+      document.querySelectorAll('.modal-content').forEach(function(el) {
+        el.style.backgroundColor = '#343a40';
+        el.style.color = '#f8f9fa';
+      });
     } else if (selectedTheme === 'green') {
-      document.body.style.backgroundColor = 'green';
-      document.body.style.color = 'white';
+      document.body.style.backgroundColor = '#28a745'; // Green background
+      document.body.style.color = '#ffffff'; // White text
+      document.querySelectorAll('.modal-content').forEach(function(el) {
+        el.style.backgroundColor = '#218838';
+        el.style.color = '#ffffff';
+      });
     } else {
       // Default theme
-      document.body.style.backgroundColor = '#f8f9fa';
-      document.body.style.color = 'black';
+      document.body.style.backgroundColor = '#f4f7f6';
+      document.body.style.color = '#333';
+      document.querySelectorAll('.modal-content').forEach(function(el) {
+        el.style.backgroundColor = '#ffffff';
+        el.style.color = '#333';
+      });
     }
 
     // Close the modal
-    $('#settingsModal').modal('hide');
+    settingsModal.hide();
   });
 
   // Handle zoom in button click
@@ -292,7 +409,7 @@
         <div class="row">
             <div class="col-md-3 col-sm-6">
                 <h5>About Us</h5>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla pretium risus quis urna maximus, eget vestibulum risus vestibulum.</p>
+                <p>We help you discover the right products faster with smart, AI-driven recommendations. Shop confidently and let our technology do the searching for you.</p>
             </div>
             <div class="col-md-3 col-sm-6">
                 <h5>Quick Links</h5>
