@@ -4,3 +4,4 @@ pandas
 numpy
 Flask-SQLAlchemy
 scikit-learn
+gunicorn
