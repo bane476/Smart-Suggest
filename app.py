@@ -10,7 +10,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-app = Flask(_name_)
+app = Flask(__name__)
 
 # load files
 trending_products = pd.read_csv("models/trending_products.csv")
@@ -134,7 +134,6 @@ def hybrid_recommendations(train_data, target_user_id, item_name, top_n=10):
 
     return hybrid_rec.head(top_n)
 
-# routes
 # List of predefined image URLs
 random_image_urls = [
     "static/img_1.png",
@@ -161,7 +160,6 @@ def index():
 def main():
     return render_template('main.html', content_based_rec=pd.DataFrame())
 
-# routes
 @app.route("/index")
 def indexredirect():
     # Create a list of random image URLs for each product
@@ -242,7 +240,7 @@ def recommendations():
                                    search_query=prod)
 
 
-if _name=='main_':
+if __name__=='__main__':
     with app.app_context():
         db.create_all()
     app.run(debug=True)
